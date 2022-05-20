@@ -4,6 +4,8 @@
 
 Для того, чтобы максимально удобно работать с такими данными, добавлять, редактировать их предназначен данный модуль.
 
+Клонируем: ```git clone https://github.com/hrustbb2/json-objects.git ./src/Modules/JsonObjects```
+
 Подключение в ```ModulesProvider.php```:
 ```
 use Src\Common\Interfaces\IModulesProvider as ICommonProvider;
@@ -110,4 +112,4 @@ composer required hrustbb2/migrations
 php artisan json-objects-migrate
 ```
 
-Подробней в [документации](http://example.com/ "Необязательная подсказка")
+Пример настройки объекта [здесь](http://example.com/ "https://github.com/hrustbb2/common-src/blob/master/Common/Dto/Object/ExampleComposit.php")
