@@ -112,4 +112,4 @@ composer required hrustbb2/migrations
 php artisan json-objects-migrate
 ```
 
-Пример настройки объекта [здесь](http://example.com/ "https://github.com/hrustbb2/common-src/blob/master/Common/Dto/Object/ExampleComposit.php")
+Пример настройки объекта [здесь](https://github.com/hrustbb2/common-src/blob/master/Common/Dto/Object/ExampleComposit.php "https://github.com/hrustbb2/common-src/blob/master/Common/Dto/Object/ExampleComposit.php")
