@@ -7,9 +7,9 @@ use Src\Common\Interfaces\Dto\Object\IFactory as IObjectsFactory;
 
 abstract class AbstractItem {
 
-    protected string $id;
+    protected ?string $id = null;
 
-    protected ?string $key;
+    protected ?string $key = null;
 
     protected string $name;
 
