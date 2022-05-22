@@ -25,6 +25,8 @@ interface IFactory {
 
     const OBJECTS_TABLE = 'objects_table';
 
+    const DIRS_TABLE = 'dirs_table';
+
     const OBJECTS_FACTORY = 'objects_factory';
 
     const ITEMS_DROPDOWN = 'items_dropdown';

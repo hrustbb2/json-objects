@@ -10,6 +10,13 @@ class Migration_1652891785 extends AbstractMigrate
 {
     public function up(array $settings): void
     {
+        $table = new Table($settings[IModuleFactory::DIRS_TABLE], ['id' => false, 'primary_key' => ['id']], $this->adapter);
+        $table  ->addColumn('id', 'string')
+                ->addColumn('matherial_path', 'string')
+                ->addColumn('parent_id', 'string')
+                ->addColumn('name', 'string')
+                ->create();
+        
         $table = new Table($settings[IModuleFactory::OBJECTS_TABLE], ['id' => false, 'primary_key' => ['id']], $this->adapter);
         $table  ->addColumn('id', 'string')
                 ->addColumn('dir_id', 'string')
@@ -31,6 +38,9 @@ class Migration_1652891785 extends AbstractMigrate
     public function down(array $settings): void
     {
         $table = new Table($settings[IModuleFactory::OBJECTS_TABLE], ['id' => false, 'primary_key' => ['id']], $this->adapter);
+        $table->drop()->save();
+
+        $table = new Table($settings[IModuleFactory::DIRS_TABLE], ['id' => false, 'primary_key' => ['id']], $this->adapter);
         $table->drop()->save();
     }
 }
