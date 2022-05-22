@@ -88,6 +88,7 @@ class Domain implements IDomain {
             $this->item->load($item->getAttributes());
             if($this->item->validate()){
                 $this->persistLayer->create($item);
+                $this->item->getObject()->onSave();
                 return true;
             }
             $this->responseCode = ResponsesCode::VALIDATION_FAILED_CODE;
@@ -111,6 +112,7 @@ class Domain implements IDomain {
             $this->item->load($item->getAttributes());
             if($this->item->validate()){
                 $this->persistLayer->update($item);
+                $this->item->getObject()->onSave();
                 return true;
             }
             $this->responseCode = ResponsesCode::VALIDATION_FAILED_CODE;

@@ -1,3 +1,14 @@
 @import "~common/css/main.scss";
 @import "~common/css/file-input.scss";
 @import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+
+.object-form-container {
+    margin: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.object-field {
+    margin-bottom: 10px;
+}
