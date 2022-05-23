@@ -10,7 +10,9 @@ use hrustbb2\arrayproc\ArrayProcessor;
 
 class ItemQuery implements IItemQuery {
 
-    use TraitSqlQuery;
+    use TraitSqlQuery {
+        TraitSqlQuery::getSelectSection as baseGetSelectSection;
+    }
 
     protected string $tableName;
 
@@ -21,6 +23,16 @@ class ItemQuery implements IItemQuery {
     public function setTableName(string $tableName)
     {
         $this->tableName = $tableName;
+    }
+
+    protected function getSelectSection(array $fields, array $allowFields, string $table, string $prefix = ''): array
+    {
+        $segments = $this->baseGetSelectSection($fields, $allowFields, $table, $prefix);
+        $result = [];
+        foreach($segments as $field=>$alias){
+            $result[] = $field . ' AS ' . $alias;
+        }
+        return $result;
     }
 
     public function select(array $fields = [])
