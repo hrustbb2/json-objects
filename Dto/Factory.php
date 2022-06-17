@@ -18,9 +18,8 @@ class Factory implements IFactory {
     public function init(array $conf = []): void
     {
         $this->conf = [
-            IItemFactory::class => [
-                'class' => ItemFactory::class,
-                'conf' => [],
+            'item' => [
+                'factory' => ItemFactory::class,
             ],
         ];
         $this->conf = array_merge_recursive($this->conf, $conf);
@@ -39,8 +38,8 @@ class Factory implements IFactory {
     public function getItemFactory():ItemFactory
     {
         if($this->itemFactory === null){
-            $this->itemFactory = new $this->conf[IItemFactory::class]['class'];
-            $this->itemFactory->init($this->conf[IItemFactory::class]['conf']);
+            $this->itemFactory = new $this->conf['item']['factory'];
+            $this->itemFactory->init($this->conf['item']);
             $this->itemFactory->setDtoFactory($this);
         }
         return $this->itemFactory;

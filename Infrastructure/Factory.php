@@ -27,17 +27,11 @@ class Factory implements IFactory {
     public function init(array $conf = []): void
     {
         $this->conf = [
-            IItemQuery::class => [
-                'class' => ItemQuery::class,
-            ],
-            IItemStorage::class => [
-                'class' => ItemStorage::class,
-            ],
-            IItemPersistLayer::class => [
-                'class' => ItemPersistLayer::class,
-            ],
+            'itemQuery' => ItemQuery::class,
+            'itemStorage' => ItemStorage::class,
+            'itemPersistLayer' => ItemPersistLayer::class,
         ];
-        $this->conf = array_replace($this->conf, $conf);
+        $this->conf = array_replace_recursive($this->conf, $conf);
     }
 
     public function setModuleFactory(IModuleFactory $factory)
@@ -47,7 +41,7 @@ class Factory implements IFactory {
 
     protected function createQuery(): ItemQuery
     {
-        $query = new $this->conf[IItemQuery::class]['class'];
+        $query = new $this->conf['itemQuery'];
         $tableName = $this->moduleFactory->getSetting(IModuleFactory::OBJECTS_TABLE);
         $query->setTableName($tableName);
         return $query;
@@ -56,7 +50,7 @@ class Factory implements IFactory {
     public function getStorage():ItemStorage
     {
         if($this->storage === null){
-            $this->storage = new $this->conf[IItemStorage::class]['class'];
+            $this->storage = new $this->conf['itemStorage'];
             $query = $this->createQuery();
             $this->storage->setObjectsQuery($query);
             $dirStorage = $this->moduleFactory->getDirsTreeFactory()->getInfrastructureFactory()->getStorage();
@@ -68,7 +62,7 @@ class Factory implements IFactory {
     public function getPersistLayer():ItemPersistLayer
     {
         if($this->persistLayer === null){
-            $this->persistLayer = new $this->conf[IItemPersistLayer::class]['class'];
+            $this->persistLayer = new $this->conf['itemPersistLayer'];
             $tableName = $this->moduleFactory->getSetting(IModuleFactory::OBJECTS_TABLE);
             $this->persistLayer->setTableName($tableName);
         }

@@ -19,16 +19,11 @@ class Factory implements IFactory {
     public function init(array $conf = []): void
     {
         $this->conf = [
-            IValidator::class => [
-                'class' => Validator::class,
-            ],
-            IDataBuilder::class => [
-                'class' => DataBuilder::class,
-            ],
-            IDomain::class => [
-                'class' => Domain::class,
-            ]
+            'validator' => Validator::class,
+            'dataBuilder' => DataBuilder::class,
+            'domain' => Domain::class,
         ];
+        $this->conf = array_replace_recursive($this->conf, $conf);
     }
 
     public function setModuleFactory(IModuleFactory $factorory):void
@@ -38,12 +33,12 @@ class Factory implements IFactory {
 
     protected function createValidator(): Validator
     {
-        return new $this->conf[IValidator::class]['class'];
+        return new $this->conf['validator'];
     }
 
     protected function creteDataBuilder(): DataBuilder
     {
-        $dataBuilder = new $this->conf[IDataBuilder::class]['class'];
+        $dataBuilder = new $this->conf['dataBuilder'];
         $storage = $this->moduleFactory->getDirsTreeFactory()->getInfrastructureFactory()->getStorage();
         $dataBuilder->setDirStorage($storage);
         return $dataBuilder;
@@ -52,7 +47,7 @@ class Factory implements IFactory {
     public function getDomain(): Domain
     {
         if($this->domain === null){
-            $this->domain = new $this->conf[IDomain::class]['class'];
+            $this->domain = new $this->conf['domain'];
             $validator = $this->createValidator();
             $this->domain->setValidator($validator);
             $dtoFactory = $this->moduleFactory->getDtoFactory();

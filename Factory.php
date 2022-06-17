@@ -39,24 +39,20 @@ class Factory implements IFactory {
     public function init(array $conf = []): void
     {
         $this->conf = [
-            IDtoFactory::class => [
-                'class' => DtoFactory::class,
-                'conf' => [],
+            'dto' => [
+                'factory' => DtoFactory::class,
             ],
-            IPagesFactory::class => [
-                'class' => PagesFactory::class,
-                'conf' => [],
+            'pages' => [
+                'factory' => PagesFactory::class,
             ],
-            IInfrastructureFactory::class => [
-                'class' => InfrastructureFactory::class,
-                'conf' => [],
+            'infrastructure' => [
+                'factory' => InfrastructureFactory::class,
             ],
-            IApplicationFactory::class => [
-                'class' => ApplicationFactory::class,
-                'conf' => [],
+            'application' => [
+                'factory' => ApplicationFactory::class,
             ],
         ];
-        $this->conf = array_replace($this->conf, $conf);
+        $this->conf = array_replace_recursive($this->conf, $conf);
     }
 
     public function injectModules(IModulesProvider $provider)
@@ -103,8 +99,8 @@ class Factory implements IFactory {
     public function getDtoFactory():DtoFactory
     {
         if($this->dtoFactory === null){
-            $this->dtoFactory = new $this->conf[IDtoFactory::class]['class'];
-            $this->dtoFactory->init($this->conf[IDtoFactory::class]['conf']);
+            $this->dtoFactory = new $this->conf['dto']['factory'];
+            $this->dtoFactory->init($this->conf['dto']);
             $this->dtoFactory->setModulesFactory($this);
         }
         return $this->dtoFactory;
@@ -113,8 +109,8 @@ class Factory implements IFactory {
     public function getPagesFactory():PagesFactory
     {
         if($this->pagesFactory === null){
-            $this->pagesFactory = new $this->conf[IPagesFactory::class]['class'];
-            $this->pagesFactory->init($this->conf[IPagesFactory::class]['conf']);
+            $this->pagesFactory = new $this->conf['pages']['factory'];
+            $this->pagesFactory->init($this->conf['pages']);
             $this->pagesFactory->setModuleFactory($this);
         }
         return $this->pagesFactory;
@@ -123,8 +119,8 @@ class Factory implements IFactory {
     public function getInfrastructureFactory():InfrastructureFactory
     {
         if($this->infrastructureFactory === null){
-            $this->infrastructureFactory = new $this->conf[IInfrastructureFactory::class]['class'];
-            $this->infrastructureFactory->init($this->conf[IInfrastructureFactory::class]['conf']);
+            $this->infrastructureFactory = new $this->conf['infrastructure']['factory'];
+            $this->infrastructureFactory->init($this->conf['infrastructure']);
             $this->infrastructureFactory->setModuleFactory($this);
         }
         return $this->infrastructureFactory;
@@ -133,8 +129,8 @@ class Factory implements IFactory {
     public function getApplicationFactory():ApplicationFactory
     {
         if($this->applicationFactory === null){
-            $this->applicationFactory = new $this->conf[IApplicationFactory::class]['class'];
-            $this->applicationFactory->init($this->conf[IApplicationFactory::class]['conf']);
+            $this->applicationFactory = new $this->conf['application']['factory'];
+            $this->applicationFactory->init($this->conf['application']);
             $this->applicationFactory->setModuleFactory($this);
         }
         return $this->applicationFactory;

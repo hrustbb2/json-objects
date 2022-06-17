@@ -18,7 +18,7 @@ class Dir extends Page implements IDir {
     protected IItemDtoFactory $itemDtoFactory;
 
     /**
-     * @var IResourceItem
+     * @var IResourceItem[]
      */
     protected array $items = [];
     

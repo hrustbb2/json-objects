@@ -5,8 +5,6 @@ namespace Src\Modules\JsonObjects\Dto\Item;
 use Src\Modules\JsonObjects\Interfaces\IFactory as IModuleFactory;
 use Src\Modules\JsonObjects\Interfaces\Dto\Item\IFactory;
 use Src\Modules\JsonObjects\Interfaces\Dto\IFactory as IDtoFactory;
-use Src\Modules\JsonObjects\Interfaces\Dto\Item\IPersistItem;
-use Src\Modules\JsonObjects\Interfaces\Dto\Item\IResourceItem;
 
 class Factory implements IFactory {
 
@@ -17,12 +15,8 @@ class Factory implements IFactory {
     public function init(array $conf = []): void
     {
         $this->conf = [
-            IPersistItem::class => [
-                'class' => PersistItem::class,
-            ],
-            IResourceItem::class => [
-                'class' => ResourceItem::class,
-            ]
+            'persistItem' => PersistItem::class,
+            'resourceItem' => ResourceItem::class,
         ];
         $this->conf = array_merge_recursive($this->conf, $conf);
     }
@@ -34,7 +28,7 @@ class Factory implements IFactory {
 
     public function createPersist(string $type = ''):PersistItem
     {
-        $persist = new $this->conf[IPersistItem::class]['class'];
+        $persist = new $this->conf['persistItem'];
         $objFactory = $this->dtoFactory->getModulesFactory()->getSetting(IModuleFactory::OBJECTS_FACTORY);
         $persist->setObjectsFactory($objFactory);
         if($type){
@@ -46,7 +40,7 @@ class Factory implements IFactory {
 
     public function createResource():ResourceItem
     {
-        $resource = new $this->conf[IResourceItem::class]['class'];
+        $resource = new $this->conf['resourceItem'];
         $dirResource = $this->dtoFactory->getModulesFactory()->getDirsTreeFactory()->getDtoFactory()->createResource();
         $resource->setDir($dirResource);
         $objFactory = $this->dtoFactory->getModulesFactory()->getSetting(IModuleFactory::OBJECTS_FACTORY);
